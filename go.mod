@@ -1,0 +1,1 @@
+module github.com/ksiuda93/go-rest-api
