@@ -3,8 +3,12 @@ name: Docker Image CI
 on:
   push:
     branches: [ main ]
+    env:
+      IMAGE: gh05tsh/go-rest-api
   pull_request:
     branches: [ main ]
+    env:
+      IMAGE: gh05tsh/go-rest-api
 
 jobs:
 
@@ -16,18 +20,25 @@ jobs:
     - name: Repository checkout
       uses: actions/checkout@v2
 
+    - name: Generate build ID
+      id: prep
+      run: |
+          branch=${GITHUB_REF##*/}
+          sha=${GITHUB_SHA::8}
+          ts=$(date +%s)
+          echo "::set-output name=BUILD_ID::${branch}-${sha}-${ts}" 
+
     - name: Login to DockerHub
       uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
       with:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
-
-    - name: Build and push Docker image
-      uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
-      with:
-        context: .
-        push: true
-        tags: ${{ steps.prep.outputs.BUILD_ID }}
-        labels: ${{ steps.prep.outputs.BUILD_ID }}
-
     
+   - name: Build and publish container image with tag
+      uses: docker/build-push-action@v2
+      with:
+          push: true
+          context: .
+          file: ./Dockerfile
+          tags: |
+                        ${{ env.IMAGE }}:${{ steps.prep.outputs.BUILD_ID }}
