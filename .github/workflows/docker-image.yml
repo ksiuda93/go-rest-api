@@ -3,17 +3,13 @@ name: Docker Image CI
 on:
   push:
     branches: [ main ]
-    env:
-      IMAGE: gh05tsh/go-rest-api
   pull_request:
     branches: [ main ]
-    env:
-      IMAGE: gh05tsh/go-rest-api
 
 jobs:
-
   build:
-
+    env:
+      IMAGE: gh05tsh/go-rest-api
     runs-on: ubuntu-latest
     
     steps:
