@@ -8,8 +8,6 @@ on:
 
 jobs:
   build:
-    env:
-      IMAGE: gh05tsh/go-rest-api
     runs-on: ubuntu-latest
     
     steps:
@@ -37,4 +35,4 @@ jobs:
           context: .
           file: ./Dockerfile
           tags: |
-                        ${{ env.IMAGE }}:${{ steps.prep.outputs.BUILD_ID }}
+                      gh05tsh/go-rest-api:${{ steps.prep.outputs.BUILD_ID }}
