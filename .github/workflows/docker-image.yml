@@ -23,7 +23,7 @@ jobs:
           sha=${GITHUB_SHA::8}
           date=$(date "+%Y%m%dT%H%M%S")
           ts=$(date +%s)
-          echo "::set-output name=BUILD_ID::${branch}-${sha}-${date}-${ts}" 
+          echo "::set-output name=BUILD_ID::${branch}-${sha}-20220302T215301-${ts}" 
 
     - name: Login to DockerHub
       uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
